@@ -14,7 +14,8 @@
     "require-dev": {
         "sensiolabs/security-checker": "^5.0",
         "symfony/debug-bundle": "*",
-        "symfony/dotenv": "*"
+        "symfony/dotenv": "*",
+        "symfony/web-profiler-bundle": "*"
     },
     "config": {
         "preferred-install": {
