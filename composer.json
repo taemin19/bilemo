@@ -13,6 +13,7 @@
     },
     "require-dev": {
         "sensiolabs/security-checker": "^5.0",
+        "symfony/debug-bundle": "*",
         "symfony/dotenv": "*"
     },
     "config": {
