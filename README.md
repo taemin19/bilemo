@@ -12,6 +12,7 @@ The development is based on:
 
 The API will follow these rules:
 - The API only returns JSON responses
+- The supported formats are jsonhal (application/hal+json) and jsonproblem (application/problem+json)
 - All API routes require authentication
 - Authentication is handled via JSON Web Token (JWT)
 
@@ -34,6 +35,9 @@ See the available commands of the Makefile.
 
 #### 2. Add the tables/schema to Database:
     $ make migrate
+
+#### 3. Load a set of data:
+    $ make fixtures
 
 ### Author
 - Daniel Thébault
