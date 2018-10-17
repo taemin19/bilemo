@@ -17,6 +17,9 @@
     "behat/gherkin": {
         "version": "v4.5.1"
     },
+    "behat/mink": {
+        "version": "v1.7.1"
+    },
     "behat/transliterator": {
         "version": "v1.2.0"
     },
@@ -178,6 +181,9 @@
             "version": "3.3",
             "ref": "e3868d2f4a5104f19f844fe551099a00c6562527"
         }
+    },
+    "symfony/css-selector": {
+        "version": "v3.4.17"
     },
     "symfony/debug": {
         "version": "v4.1.6"
