@@ -20,6 +20,9 @@
     "behat/mink": {
         "version": "v1.7.1"
     },
+    "behat/mink-extension": {
+        "version": "2.3.1"
+    },
     "behat/transliterator": {
         "version": "v1.2.0"
     },

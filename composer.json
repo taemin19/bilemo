@@ -25,6 +25,7 @@
     "require-dev": {
         "behat/behat": "^3.5",
         "behat/mink": "^1.7",
+        "behat/mink-extension": "^2.3",
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "fzaninotto/faker": "^1.8",
         "sensiolabs/security-checker": "^5.0",
