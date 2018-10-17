@@ -67,8 +67,14 @@ autoload: composer.json ## Update the autoloader
 cache: var/cache ## Clear the cache
 	$(ENV_PHP) php bin/console cache:clear
 
-cache-prod: var/cache ## Clear the cache
+cache-prod: var/cache ## Clear the cache in prod env
 	$(ENV_PHP) php bin/console cache:clear --env=prod
 
 router: config/routes ## Get a list of the routes
 	$(ENV_PHP) php bin/console debug:router
+
+migration: ## Create the Database Tables/Schema
+	$(ENV_PHP) php bin/console make:migration
+
+migrate: ## Add Tables/Schema to Database
+	$(ENV_PHP) php bin/console doctrine:migrations:migrate
