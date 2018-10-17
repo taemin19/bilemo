@@ -11,8 +11,20 @@
             "ref": "18727d8f229306860b46955f438e1897421da689"
         }
     },
+    "behat/behat": {
+        "version": "v3.5.0"
+    },
+    "behat/gherkin": {
+        "version": "v4.5.1"
+    },
+    "behat/transliterator": {
+        "version": "v1.2.0"
+    },
     "composer/ca-bundle": {
         "version": "1.1.2"
+    },
+    "container-interop/container-interop": {
+        "version": "1.2.0"
     },
     "doctrine/annotations": {
         "version": "1.0",
@@ -151,6 +163,9 @@
     },
     "symfony/cache": {
         "version": "v4.1.6"
+    },
+    "symfony/class-loader": {
+        "version": "v3.4.17"
     },
     "symfony/config": {
         "version": "v4.1.6"
