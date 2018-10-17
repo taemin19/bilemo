@@ -73,8 +73,11 @@ cache-prod: var/cache ## Clear the cache in prod env
 router: config/routes ## Get a list of the routes
 	$(ENV_PHP) php bin/console debug:router
 
-migration: ## Create the Database Tables/Schema
+migration: ## Generate a new migration
 	$(ENV_PHP) php bin/console make:migration
 
-migrate: ## Add Tables/Schema to Database
+migrate: ## Execute migrations that have not already been run
 	$(ENV_PHP) php bin/console doctrine:migrations:migrate
+
+fixtures: src/DataFixtures ## Load a "fake" set data into the database
+	$(ENV_PHP) php bin/console doctrine:fixtures:load
