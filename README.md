@@ -19,5 +19,21 @@ The API will follow these rules:
 - PHP 7.1.3 or higher
 - [Composer](https://getcomposer.org/)
 
+## Installation
+#### 1. Install the project:
+The project should be installed using [Make](https://www.gnu.org/software/make/), be sure to have configured the `.env` file after using `cp .env.dist .env`.
+    
+    $ git clone https://github.com/taemin19/bilemo.git
+    $ cd bilemo
+    $ cp .env.dist .env
+    $ make dev
+
+See the available commands of the Makefile.
+
+    $ make
+
+#### 2. Add the tables/schema to Database:
+    $ make migrate
+
 ### Author
 - Daniel Thébault
