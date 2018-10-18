@@ -8,7 +8,8 @@ The API is written in PHP with the Symfony framework.
 The development is based on:
 - [Symfony 4](https://symfony.com/doc/current/index.html)
 - [Api Platform server component](https://api-platform.com/docs/distribution#using-symfony-flex-and-composer-advanced-users)
-- [Docker](https://www.docker.com/) runtime environment
+- [Docker](https://www.docker.com/) (runtime environment)
+- [Behat](http://behat.org/en/latest/) (functional tests)
 
 The API will follow these rules:
 - The API only returns JSON responses
@@ -21,7 +22,7 @@ The API will follow these rules:
 - [Composer](https://getcomposer.org/)
 
 ## Installation
-#### 1. Install the project:
+#### Install the project
 The project should be installed using [Make](https://www.gnu.org/software/make/), be sure to have configured the `.env` file after using `cp .env.dist .env`.
     
     $ git clone https://github.com/taemin19/bilemo.git
@@ -29,15 +30,27 @@ The project should be installed using [Make](https://www.gnu.org/software/make/)
     $ cp .env.dist .env
     $ make dev
 
-See the available commands of the Makefile.
+See the available commands of the Makefile:
 
     $ make
 
-#### 2. Add the tables/schema to Database:
+#### Database
+Add the tables/schema to database:
+
     $ make migrate
 
-#### 3. Load a set of data:
+Load a set of data:
+
     $ make fixtures
+
+#### Testing
+Create test database and add tables/schema:
+
+    $ make db--test
+
+Run functional tests:
+
+    $ make functional-test
 
 ### Author
 - Daniel Thébault
