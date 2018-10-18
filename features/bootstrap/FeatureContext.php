@@ -1,15 +1,15 @@
 <?php
 
+use App\Entity\Product;
+use App\Entity\User;
 use Behat\Behat\Context\Context;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Behat\Gherkin\Node\TableNode;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
- * This context class contains the definitions of the steps used by the demo 
- * feature file. Learn how to get started with Behat and BDD on Behat's website.
- * 
- * @see http://behat.org/en/latest/quick_start.html
+ * Contains the definitions of the steps used by the features
  */
 class FeatureContext implements Context
 {
@@ -19,30 +19,76 @@ class FeatureContext implements Context
     private $kernel;
 
     /**
-     * @var Response|null
+     * @var ManagerRegistry
      */
-    private $response;
+    private $doctrine;
 
-    public function __construct(KernelInterface $kernel)
+    /**
+     * @var SchemaTool
+     */
+    private $schemaTool;
+
+    /**
+     * @var array
+     */
+    private $classes;
+
+    public function __construct(KernelInterface $kernel, ManagerRegistry $doctrine)
     {
         $this->kernel = $kernel;
+        $this->doctrine = $doctrine;
+        $manager = $doctrine->getManager();
+        $this->schemaTool = new SchemaTool($manager);
+        $this->classes = $manager->getMetadataFactory()->getAllMetadata();
     }
 
     /**
-     * @When a demo scenario sends a request to :path
+     * @BeforeScenario
      */
-    public function aDemoScenarioSendsARequestTo(string $path)
+    public function clearDatabase()
     {
-        $this->response = $this->kernel->handle(Request::create($path, 'GET'));
+        $this->schemaTool->dropSchema($this->classes);
+        $this->doctrine->getManager()->clear();
+        $this->schemaTool->createSchema($this->classes);
     }
 
     /**
-     * @Then the response should be received
+     * @param TableNode $table
+     * @Given the following products exist:
      */
-    public function theResponseShouldBeReceived()
+    public function theFollowingProductsExist(TableNode $table)
     {
-        if ($this->response === null) {
-            throw new \RuntimeException('No response received');
+        $em = $this->doctrine->getManager();
+
+        foreach ($table->getHash() as $productHash) {
+            $product = new Product();
+            $product->setModel($productHash['model']);
+            $product->setBrand($productHash['brand']);
+            $product->setStorage($productHash['storage']);
+            $product->setColor($productHash['color']);
+            $product->setPrice($productHash['price']);
+            $product->setDescription($productHash['description']);
+            $em->persist($product);
         }
+        
+        $em->flush();
+    }
+
+    /**
+     * @param TableNode $table
+     * @Given the following users exist:
+     */
+    public function theFollowingUsersExist(TableNode $table)
+    {
+        $em = $this->doctrine->getManager();
+
+        foreach ($table->getHash() as $userHash) {
+            $user = new User();
+            $user->setFirstname($userHash['firstname']);
+            $user->setLastname($userHash['lastname']);
+            $user->setEmail($userHash['email']);
+            $em->persist($user);
+        }
+        $em->flush();
     }
 }
