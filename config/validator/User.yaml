@@ -1,0 +1,18 @@
+# api/config/validatior/User.yaml
+App\Entity\User:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: email
+    properties:
+        firstname:
+            - NotBlank: ~
+            - Length:
+                max: 25
+        lastname:
+            - NotBlank: ~
+            - Length:
+                max: 25
+        email:
+            - NotBlank: ~
+            - Email: ~
+            - Length:
+                max: 50
