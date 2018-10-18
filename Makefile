@@ -64,11 +64,17 @@ autoload: composer.json ## Update the autoloader
 	$(COMPOSER) dump-autoload -a -o
 
 ## Symfony commands
-cache: var/cache ## Clear the cache
+cache: var/cache ## Clear the cache in current env
 	$(ENV_PHP) php bin/console cache:clear
 
-cache-prod: var/cache ## Clear the cache in prod env
+cache--dev: var/cache/dev ## Clear the cache in dev env
+	$(ENV_PHP) php bin/console cache:clear --env=dev
+
+cache--prod: var/cache/prod ## Clear the cache in prod env
 	$(ENV_PHP) php bin/console cache:clear --env=prod
+
+cache--test: var/cache/test ## Clear the cache in test env
+	$(ENV_PHP) php bin/console cache:clear --env=test
 
 router: config/routes ## Get a list of the routes
 	$(ENV_PHP) php bin/console debug:router
@@ -81,3 +87,10 @@ migrate: ## Execute migrations that have not already been run
 
 fixtures: src/DataFixtures ## Load a "fake" set data into the database
 	$(ENV_PHP) php bin/console doctrine:fixtures:load
+
+db--test: ## Create database and add tables/shema in test env
+	$(ENV_PHP) php bin/console doctrine:database:create --env=test
+	$(ENV_PHP) php bin/console doctrine:schema:update --force --env=test
+
+functional-test: features ## Run functional tests
+	$(ENV_PHP) vendor/bin/behat
