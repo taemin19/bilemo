@@ -136,3 +136,47 @@ Feature: Users
       | url          | method |
       | /api/users/1 | GET    |
       | /api/users/1 | DELETE |
+
+
+  Scenario Outline: Throw 400 errors when a post is invalid
+    Given the following users exist:
+      | firstname | lastname | email              |
+      | Jane      | Doe      | jane.doe@email.com |
+    When I add "Content-Type" header equal to "application/hal+json"
+    And I add "Accept" header equal to "application/hal+json"
+    And I send a "POST" request to "/api/users" with body:
+    """
+    {
+      "firstname": "<firstname>",
+      "lastname": "<lastname>",
+      "email": "<email>"
+    }
+    """
+    Then the response status code should be 400
+    And the response should be in JSON
+    And the header "Content-Type" should be equal to "application/problem+json; charset=utf-8"
+    And the JSON should be equal to:
+    """
+    {
+      "type": "https://tools.ietf.org/html/rfc2616#section-10",
+      "title": "An error occurred",
+      "detail": "<property>: <message>",
+      "violations": [
+          {
+              "propertyPath": "<property>",
+              "message": "<message>"
+          }
+      ]
+    }
+    """
+
+    Examples:
+      | property  | message                                                       | firstname                  | lastname                   | email                                               |
+      | firstname | This value should not be blank.                               |                            | Doe                        | john.doe@email.com                                  |
+      | firstname | This value is too long. It should have 25 characters or less. | Johnnnnnnnnnnnnnnnnnnnnnnn | Doe                        | john.doe@email.com                                  |
+      | lastname  | This value should not be blank.                               | John                       |                            | john.doe@email.com                                  |
+      | lastname  | This value is too long. It should have 25 characters or less. | John                       | Doeeeeeeeeeeeeeeeeeeeeeeee | john.doe@email.com                                  |
+      | email     | This value should not be blank.                               | John                       | Doe                        |                                                     |
+      | email     | This value is too long. It should have 50 characters or less. | John                       | Doe                        | John.Doeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee@email.com |
+      | email     | This value is not a valid email address.                      | John                       | Doe                        | john.doeemail.com                                   |
+      | email     | This value is already used.                                   | John                       | Doe                        | jane.doe@email.com                                  |
