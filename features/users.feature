@@ -1,3 +1,4 @@
+@loginAsClient1
 Feature: Users
   In order to access user resources
   As an API client
