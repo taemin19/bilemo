@@ -1,12 +1,17 @@
 <?php
 
+use App\Entity\Client;
 use App\Entity\Product;
 use App\Entity\User;
 use Behat\Behat\Context\Context;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
+use Behatch\Context\RestContext;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\SchemaTool;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManager;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Contains the definitions of the steps used by the features
@@ -33,13 +38,39 @@ class FeatureContext implements Context
      */
     private $classes;
 
-    public function __construct(KernelInterface $kernel, ManagerRegistry $doctrine)
+    /**
+     * @var JWTManager
+     */
+    private $jwtManager;
+
+    /**
+     * @var RestContext
+     */
+    private $restContext;
+
+    /**
+     * @var Client
+     */
+    private $currentClient;
+
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $encoder;
+
+    public function __construct(
+        KernelInterface $kernel,
+        ManagerRegistry $doctrine,
+        JWTManager $jwtManager,
+        UserPasswordEncoderInterface $encoder)
     {
         $this->kernel = $kernel;
         $this->doctrine = $doctrine;
         $manager = $doctrine->getManager();
         $this->schemaTool = new SchemaTool($manager);
         $this->classes = $manager->getMetadataFactory()->getAllMetadata();
+        $this->jwtManager = $jwtManager;
+        $this->encoder = $encoder;
     }
 
     /**
@@ -50,6 +81,47 @@ class FeatureContext implements Context
         $this->schemaTool->dropSchema($this->classes);
         $this->doctrine->getManager()->clear();
         $this->schemaTool->createSchema($this->classes);
+    }
+
+    /**
+     * @param BeforeScenarioScope $scope
+     * @BeforeScenario @loginAsClient1
+     */
+    public function login(BeforeScenarioScope $scope)
+    {
+        $client = new Client();
+        $client->setName('Client1');
+        $client->setUsername('client1');
+        $client->setPassword('client1');
+
+        $this->currentClient = $client;
+
+        $em = $this->doctrine->getManager();
+        $em->persist($client);
+        $em->flush();
+
+        $token = $this->jwtManager->create($client);
+        $this->restContext = $scope->getEnvironment()->getContext(RestContext::class);
+        $this->restContext->iAddHeaderEqualTo('Authorization', "Bearer $token");
+    }
+
+    /**
+     * @param TableNode $table
+     * @Given the following clients exist:
+     */
+    public function theFollowingClientsExist(TableNode $table)
+    {
+        $em = $this->doctrine->getManager();
+
+        foreach ($table->getHash() as $clientHash) {
+            $client = new Client();
+            $client->setName($clientHash['name']);
+            $client->setUsername($clientHash['username']);
+            $client->setPassword($this->encoder->encodePassword($client, $clientHash['password']));
+            $em->persist($client);
+        }
+
+        $em->flush();
     }
 
     /**
@@ -70,7 +142,7 @@ class FeatureContext implements Context
             $product->setDescription($productHash['description']);
             $em->persist($product);
         }
-        
+
         $em->flush();
     }
 

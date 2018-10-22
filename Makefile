@@ -48,16 +48,16 @@ install: composer.json ## Install the dependencies
 update: composer.lock ## Get the latest versions of the dependencies
 	$(COMPOSER) update -a -o
 
-require: composer.json ## Install a package to require
+require: composer.json ## Install a package to require, PACKAGE=package_name
 	$(COMPOSER) require $(PACKAGE) -a -o
 
-require-dev: composer.json ## Install a package to require-dev
+require-dev: composer.json ## Install a package to require-dev, PACKAGE=package_name
 	$(COMPOSER) require --dev $(PACKAGE) -a -o
 
-remove: composer.json ## Remove a package from require
+remove: composer.json ## Remove a package from require, PACKAGE=package_name
 	$(COMPOSER) remove $(PACKAGE) -a -o
 
-remove-dev: composer.json ## Remove a package from require-dev
+remove-dev: composer.json ## Remove a package from require-dev, PACKAGE=package_name
 	$(COMPOSER) remove --dev $(PACKAGE) -a -o
 
 autoload: composer.json ## Update the autoloader
@@ -82,15 +82,15 @@ router: config/routes ## Get a list of the routes
 migration: ## Generate a new migration
 	$(ENV_PHP) php bin/console make:migration
 
-migrate: ## Execute migrations that have not already been run
+migrate: src/Migrations ## Execute migrations that have not already been run
 	$(ENV_PHP) php bin/console doctrine:migrations:migrate
 
 fixtures: src/DataFixtures ## Load a "fake" set data into the database
 	$(ENV_PHP) php bin/console doctrine:fixtures:load
 
-db--test: ## Create database and add tables/shema in test env
+db--test: config/packages/test/doctrine.yaml ## Create a test database and add tables/shema in test env
 	$(ENV_PHP) php bin/console doctrine:database:create --env=test
 	$(ENV_PHP) php bin/console doctrine:schema:update --force --env=test
 
-functional-test: features ## Run functional tests
-	$(ENV_PHP) vendor/bin/behat
+functional-test: features ## Run functional tests, FEATURE=example.feature to test a specific feature
+	$(ENV_PHP) vendor/bin/behat features/$(FEATURE)

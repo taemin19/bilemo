@@ -11,3 +11,8 @@
 ###> behat/symfony2-extension ###
 behat.yml
 ###< behat/symfony2-extension ###
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/private.pem
+/config/jwt/public.pem
+###< lexik/jwt-authentication-bundle ###

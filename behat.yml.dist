@@ -5,6 +5,8 @@ default:
                 - FeatureContext:
                     kernel: '@kernel'
                     doctrine: '@doctrine'
+                    jwtManager: '@lexik_jwt_authentication.jwt_manager'
+                    encoder: '@security.password_encoder'
                 - Behat\MinkExtension\Context\MinkContext
                 - Behatch\Context\RestContext
                 - Behatch\Context\JsonContext

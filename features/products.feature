@@ -1,3 +1,4 @@
+@loginAsClient1
 Feature: Products
   In order to access product resources
   As an API client

@@ -6,15 +6,16 @@
 
 The API is written in PHP with the Symfony framework.
 The development is based on:
+- [Docker](https://www.docker.com/) (runtime environment)
 - [Symfony 4](https://symfony.com/doc/current/index.html)
 - [Api Platform server component](https://api-platform.com/docs/distribution#using-symfony-flex-and-composer-advanced-users)
-- [Docker](https://www.docker.com/) (runtime environment)
+- [LexikJWTAuthenticationBundle](https://github.com/lexik/LexikJWTAuthenticationBundle) (Json Web Token authentication)
 - [Behat](http://behat.org/en/latest/) (functional tests)
 
 The API will follow these rules:
 - The API only returns JSON responses
 - The supported formats are jsonhal (application/hal+json) and jsonproblem (application/problem+json)
-- All API routes require authentication
+- Resources API routes require authentication
 - Authentication is handled via JSON Web Token (JWT)
 
 ## Requirements
@@ -42,6 +43,14 @@ Add the tables/schema to database:
 Load a set of data:
 
     $ make fixtures
+
+#### JSON Web Token
+Generate the SSH keys:
+
+    $ openssl genrsa -out config/jwt/private.pem -aes256 4096
+    $ openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem
+    
+*Test SSH keys are already generated in the project.*    
 
 #### Testing
 Create test database and add tables/schema:
