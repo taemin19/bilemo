@@ -5,6 +5,9 @@ workflows:
   build_and_test:
     jobs:
       - build
+      - test-security:
+          requires:
+            - build      
       - test-products:
           requires:
             - build
@@ -58,6 +61,26 @@ jobs:
           root: .
           paths:
             - .
+  
+  test-security:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Install system packages
+          command: apk add --no-cache --virtual .build-deps $PHPIZE_DEPS zlib-dev
+      - run:
+          name: Install PHP extensions
+          command: docker-php-ext-install zip
+      - run:
+          name: Create test database
+          command: |
+            php bin/console doctrine:database:create --env=test
+            php bin/console doctrine:schema:update --force --env=test
+      - run:
+          name: Run functional tests
+          command: vendor/bin/behat features/security.feature
   
   test-products:
     <<: *defaults
