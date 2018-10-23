@@ -3,11 +3,10 @@
 
 # Constants
 DOCKER_COMPOSE = docker-compose
-DOCKER = docker
 
 # Environments
-ENV_PHP = $(DOCKER) exec bilemo_php
-ENV_BLACKFIRE = $(DOCKER) exec bilemo_blackfire
+ENV_PHP = $(DOCKER_COMPOSE) exec php
+ENV_BLACKFIRE = $(DOCKER_COMPOSE) exec blackfire
 
 # Tools
 COMPOSER = $(ENV_PHP) composer
@@ -79,10 +78,13 @@ cache--test: var/cache/test ## Clear the cache in test env
 router: config/routes ## Get a list of the routes
 	$(ENV_PHP) php bin/console debug:router
 
-migration: ## Generate a new migration
+db-migration: ## Generate a new migration
 	$(ENV_PHP) php bin/console make:migration
 
-migrate: src/Migrations ## Execute migrations that have not already been run
+db-validate: ## Validate mapping/database
+	$(ENV_PHP) php bin/console doctrine:schema:validate
+
+db-migrate: src/Migrations ## Execute migrations that have not already been run
 	$(ENV_PHP) php bin/console doctrine:migrations:migrate
 
 fixtures: src/DataFixtures ## Load a "fake" set data into the database
@@ -94,3 +96,10 @@ db--test: config/packages/test/doctrine.yaml ## Create a test database and add t
 
 functional-test: features ## Run functional tests, FEATURE=example.feature to test a specific feature
 	$(ENV_PHP) vendor/bin/behat features/$(FEATURE)
+
+## Console commands
+client: src/Command/CreateClientCommand.php ## Create a client
+	$(ENV_PHP) php bin/console app:create-client
+
+product: src/Command/CreateProductCommand.php ## Create a product
+	$(ENV_PHP) php bin/console app:create-product
