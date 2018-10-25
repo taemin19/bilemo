@@ -90,16 +90,22 @@ db-migrate: src/Migrations ## Execute migrations that have not already been run
 fixtures: src/DataFixtures ## Load a "fake" set data into the database
 	$(ENV_PHP) php bin/console doctrine:fixtures:load
 
-db--test: config/packages/test/doctrine.yaml ## Create a test database and add tables/shema in test env
+db--test: config/packages/test/doctrine.yaml ## Create a test database and add tables/schema in test env
 	$(ENV_PHP) php bin/console doctrine:database:create --env=test
 	$(ENV_PHP) php bin/console doctrine:schema:update --force --env=test
 
-functional-test: features ## Run functional tests, FEATURE=example.feature to test a specific feature
+functional-test: features ## Run functional tests, [FEATURE=example.feature] to test a specific feature
 	$(ENV_PHP) vendor/bin/behat features/$(FEATURE)
 
 ## Console commands
-client: src/Command/CreateClientCommand.php ## Create a client
-	$(ENV_PHP) php bin/console app:create-client
+client: src/Command/CreateClientCommand.php ## Create a client, [ARGS=name username password] for a no interactive wizard
+	$(ENV_PHP) php bin/console app:create-client $(ARGS)
 
-product: src/Command/CreateProductCommand.php ## Create a product
-	$(ENV_PHP) php bin/console app:create-product
+client-delete: src/Command/DeleteClientCommand.php ## Delete a client, [ARGS=username] for a no interactive wizard
+	$(ENV_PHP) php bin/console app:delete-client $(ARGS)
+
+product: src/Command/CreateProductCommand.php ## Create a product, [ARGS=model brand storage color price description] for a no interactive wizard
+	$(ENV_PHP) php bin/console app:create-product $(ARGS)
+
+product-delete: src/Command/DeleteProductCommand.php ## Delete a product, [ARGS=id] for a no interactive wizard
+	$(ENV_PHP) php bin/console app:delete-product $(ARGS)
