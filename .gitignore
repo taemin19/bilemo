@@ -16,3 +16,8 @@ behat.yml
 /config/jwt/private.pem
 /config/jwt/public.pem
 ###< lexik/jwt-authentication-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###

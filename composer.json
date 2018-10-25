@@ -36,6 +36,7 @@
         "symfony/debug-bundle": "*",
         "symfony/dotenv": "*",
         "symfony/maker-bundle": "^1.8",
+        "symfony/phpunit-bridge": "*",
         "symfony/web-profiler-bundle": "*"
     },
     "config": {
