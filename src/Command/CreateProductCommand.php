@@ -158,11 +158,6 @@ class CreateProductCommand extends Command
         // validate the product data
         $this->validateProductData($model, $brand, $storage, $color, $price, $description);
 
-        // ask confirmation
-        if (!$this->io->confirm('Confirm the product creation?', true)) {
-            return;
-        }
-
         // create the product
         $product = new Product();
         $product->setModel($model);
