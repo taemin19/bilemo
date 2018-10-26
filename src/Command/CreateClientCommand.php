@@ -141,11 +141,6 @@ class CreateClientCommand extends Command
         // validate the client data
         $this->validateClientData($name, $username, $password);
 
-        // ask confirmation
-        if (!$this->io->confirm('Confirm the client creation?', true)) {
-            return;
-        }
-
         // create the client and encode its password
         $client = new Client();
         $client->setName($name);

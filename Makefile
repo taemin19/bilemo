@@ -97,6 +97,9 @@ db--test: config/packages/test/doctrine.yaml ## Create a test database and add t
 functional-test: features ## Run functional tests, [FEATURE=example.feature] to test a specific feature
 	$(ENV_PHP) vendor/bin/behat features/$(FEATURE)
 
+unit-test: tests ## Run unit tests
+	$(ENV_PHP) ./bin/phpunit
+
 ## Console commands
 client: src/Command/CreateClientCommand.php ## Create a client, [ARGS=name username password] for a no interactive wizard
 	$(ENV_PHP) php bin/console app:create-client $(ARGS)

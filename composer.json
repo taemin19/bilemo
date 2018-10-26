@@ -30,12 +30,14 @@
         "behat/mink-extension": "^2.3",
         "behat/symfony2-extension": "^2.1",
         "behatch/contexts": "^3.2",
+        "dama/doctrine-test-bundle": "^5.0",
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "fzaninotto/faker": "^1.8",
         "sensiolabs/security-checker": "^5.0",
         "symfony/debug-bundle": "*",
         "symfony/dotenv": "*",
         "symfony/maker-bundle": "^1.8",
+        "symfony/phpunit-bridge": "*",
         "symfony/web-profiler-bundle": "*"
     },
     "config": {
