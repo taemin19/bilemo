@@ -5,7 +5,7 @@ Feature: Users
   I need to be able to retrieve, create and delete them trough the API
 
   Scenario: Retrieve a collection of users
-    Given the following users exist:
+    Given the following users exist for client1:
       | firstname | lastname | email              |
       | John      | Doe      | john.doe@email.com |
       | Jane      | Doe      | jane.doe@email.com |
@@ -43,7 +43,17 @@ Feature: Users
             "id": 1,
             "firstname": "John",
             "lastname": "Doe",
-            "email": "john.doe@email.com"
+            "email": "john.doe@email.com",
+            "client": {
+              "id": 1,
+              "name": "Client1",
+              "username": "client1",
+              "salt": null,
+              "password": "client1",
+              "roles": [
+                  "ROLE_CLIENT"
+              ]
+            }
           },
           {
             "_links": {
@@ -54,7 +64,17 @@ Feature: Users
             "id": 2,
             "firstname": "Jane",
             "lastname": "Doe",
-            "email": "jane.doe@email.com"
+            "email": "jane.doe@email.com",
+            "client": {
+              "id": 1,
+              "name": "Client1",
+              "username": "client1",
+              "salt": null,
+              "password": "client1",
+              "roles": [
+                  "ROLE_CLIENT"
+              ]
+            }
           }
         ]
       }
@@ -86,12 +106,22 @@ Feature: Users
       "id": 1,
       "firstname": "John",
       "lastname": "Doe",
-      "email": "john.doe@email.com"
+      "email": "john.doe@email.com",
+      "client": {
+        "id": 1,
+        "name": "Client1",
+        "username": "client1",
+        "salt": null,
+        "password": "client1",
+        "roles": [
+            "ROLE_CLIENT"
+        ]
+      }
     }
     """
 
   Scenario: Retrieve one user
-    Given the following users exist:
+    Given the following users exist for client1:
       | firstname | lastname | email              |
       | John      | Doe      | john.doe@email.com |
     When I add "Accept" header equal to "application/hal+json"
@@ -110,12 +140,22 @@ Feature: Users
       "id": 1,
       "firstname": "John",
       "lastname": "Doe",
-      "email": "john.doe@email.com"
+      "email": "john.doe@email.com",
+      "client": {
+        "id": 1,
+        "name": "Client1",
+        "username": "client1",
+        "salt": null,
+        "password": "client1",
+        "roles": [
+            "ROLE_CLIENT"
+        ]
+      }
     }
     """
 
   Scenario: Delete a user
-    Given the following users exist:
+    Given the following users exist for client1:
       | firstname | lastname | email              |
       | John      | Doe      | john.doe@email.com |
     When I add "Accept" header equal to "application/hal+json"
@@ -140,7 +180,7 @@ Feature: Users
 
 
   Scenario Outline: Throw 400 errors when a post is invalid
-    Given the following users exist:
+    Given the following users exist for client1:
       | firstname | lastname | email              |
       | Jane      | Doe      | jane.doe@email.com |
     When I add "Content-Type" header equal to "application/hal+json"

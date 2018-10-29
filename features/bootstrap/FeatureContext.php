@@ -148,9 +148,9 @@ class FeatureContext implements Context
 
     /**
      * @param TableNode $table
-     * @Given the following users exist:
+     * @Given the following users exist for client1:
      */
-    public function theFollowingUsersExist(TableNode $table)
+    public function theFollowingUsersExistForClient1(TableNode $table)
     {
         $em = $this->doctrine->getManager();
 
@@ -159,6 +159,7 @@ class FeatureContext implements Context
             $user->setFirstname($userHash['firstname']);
             $user->setLastname($userHash['lastname']);
             $user->setEmail($userHash['email']);
+            $user->setClient($this->currentClient);
             $em->persist($user);
         }
         $em->flush();

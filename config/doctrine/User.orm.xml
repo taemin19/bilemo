@@ -16,5 +16,9 @@
         <field name="firstname" column="firstname" type="string" length="25" />
         <field name="lastname" column="lastname" type="string" length="25" />
         <field name="email" column="email" type="string" length="50" />
+
+        <many-to-one field="client" target-entity="App\Entity\Client">
+            <join-column nullable="false" />
+        </many-to-one>
     </entity>
 </doctrine-mapping>

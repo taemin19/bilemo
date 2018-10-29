@@ -25,6 +25,11 @@ class User
     private $email;
 
     /**
+     * @var Client
+     */
+    private $client;
+
+    /**
      * @return int
      */
     public function getId()
@@ -83,6 +88,24 @@ class User
     public function setEmail(string $email): self
     {
         $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @return Client
+     */
+    public function getClient(): Client
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param Client $client
+     * @return User
+     */
+    public function setClient(Client $client): self
+    {
+        $this->client = $client;
         return $this;
     }
 }

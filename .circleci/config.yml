@@ -10,13 +10,13 @@ workflows:
             - build
       - test-security:
           requires:
-            - build      
+            - test-unit      
       - test-products:
           requires:
-            - build
+            - test-unit
       - test-users:
           requires:
-            - build
+            - test-unit
 
 defaults: &defaults
   working_directory: /bilemo
