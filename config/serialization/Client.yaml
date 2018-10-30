@@ -1,0 +1,6 @@
+# api/config/serialization/Client.yaml
+App\Entity\Client:
+    attributes:
+        name:
+            groups: ['user:read']
+    

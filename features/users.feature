@@ -45,14 +45,7 @@ Feature: Users
             "lastname": "Doe",
             "email": "john.doe@email.com",
             "client": {
-              "id": 1,
-              "name": "Client1",
-              "username": "client1",
-              "salt": null,
-              "password": "client1",
-              "roles": [
-                  "ROLE_CLIENT"
-              ]
+              "name": "Client1"
             }
           },
           {
@@ -66,14 +59,7 @@ Feature: Users
             "lastname": "Doe",
             "email": "jane.doe@email.com",
             "client": {
-              "id": 1,
-              "name": "Client1",
-              "username": "client1",
-              "salt": null,
-              "password": "client1",
-              "roles": [
-                  "ROLE_CLIENT"
-              ]
+              "name": "Client1"
             }
           }
         ]
@@ -108,14 +94,7 @@ Feature: Users
       "lastname": "Doe",
       "email": "john.doe@email.com",
       "client": {
-        "id": 1,
-        "name": "Client1",
-        "username": "client1",
-        "salt": null,
-        "password": "client1",
-        "roles": [
-            "ROLE_CLIENT"
-        ]
+        "name": "Client1"
       }
     }
     """
@@ -142,14 +121,7 @@ Feature: Users
       "lastname": "Doe",
       "email": "john.doe@email.com",
       "client": {
-        "id": 1,
-        "name": "Client1",
-        "username": "client1",
-        "salt": null,
-        "password": "client1",
-        "roles": [
-            "ROLE_CLIENT"
-        ]
+        "name": "Client1"
       }
     }
     """
