@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserEntitySubscriber implements EventSubscriberInterface
 {
@@ -33,15 +34,21 @@ class UserEntitySubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @param GetResponseForControllerResultEvent $event
+     */
     public function setCurrentClient(GetResponseForControllerResultEvent $event)
     {
         $user = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
 
+        /** @var UserInterface $client */
+        $client = $this->tokenStorage->getToken()->getUser();
+
         if (!$user instanceof User || Request::METHOD_POST !== $method) {
             return;
         }
 
-        $user->setClient($this->tokenStorage->getToken()->getUser());
+        $user->setClient($client);
     }
 }
