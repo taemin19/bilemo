@@ -33,40 +33,35 @@ class UserEntitySubscriberTest extends TestCase
     /**
      * This test checks that the method setCurrentClient()
      * was correctly called (set the client of user)
+     *
+     * @param string $className
+     * @param bool $shouldCallSetClient
+     * @param string $method
+     *
+     * @dataProvider providerSetClientCall
      */
-    public function testSetClientCall()
+    public function testSetClientCall(string $className, bool $shouldCallSetClient, string $method)
     {
-        $entityMock = $this->getEntityMock(User::class, true);
+        $entityMock = $this->getEntityMock($className, $shouldCallSetClient);
         $tokenStorageMock = $this->getTokenStorageMock();
-        $eventMock = $this->getEventMock('POST', $entityMock);
+        $eventMock = $this->getEventMock($method, $entityMock);
 
         (new UserEntitySubscriber($tokenStorageMock))->setCurrentClient(
             $eventMock)
         ;
+    }
 
-        $entityMock = $this->getEntityMock(User::class, false);
-        $tokenStorageMock = $this->getTokenStorageMock();
-        $eventMock = $this->getEventMock('GET', $entityMock);
-
-        (new UserEntitySubscriber($tokenStorageMock))->setCurrentClient(
-            $eventMock)
-        ;
-
-        $entityMock = $this->getEntityMock('NonExisting', false);
-        $tokenStorageMock = $this->getTokenStorageMock();
-        $eventMock = $this->getEventMock('POST', $entityMock);
-
-        (new UserEntitySubscriber($tokenStorageMock))->setCurrentClient(
-            $eventMock)
-        ;
-
-        $entityMock = $this->getEntityMock('NonExisting', false);
-        $tokenStorageMock = $this->getTokenStorageMock();
-        $eventMock = $this->getEventMock('GET', $entityMock);
-
-        (new UserEntitySubscriber($tokenStorageMock))->setCurrentClient(
-            $eventMock)
-        ;
+    /**
+     * @return array
+     */
+    public function providerSetClientCall(): array
+    {
+        return [
+            [User::class, true, 'POST'],
+            [User::class, false, 'GET'],
+            ['NonExisting', false, 'POST'],
+            ['NonExisting', false, 'GET']
+        ];
     }
 
     /**
@@ -126,11 +121,11 @@ class UserEntitySubscriberTest extends TestCase
      * This helper method mocks an entity
      * and checks that the method setClient() is correctly called or not called
      *
-     * @param $className
+     * @param string $className
      * @param bool $shouldCallSetClient
      * @return MockObject
      */
-    private function getEntityMock($className, bool $shouldCallSetClient): MockObject
+    private function getEntityMock(string $className, bool $shouldCallSetClient): MockObject
     {
         $entityMock = $this->getMockBuilder($className)
             ->setMethods(['setClient'])
