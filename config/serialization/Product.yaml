@@ -1,0 +1,17 @@
+# api/config/serialization/Product.yaml
+App\Entity\Product:
+    attributes:
+        id:
+            groups: ['product:read']
+        model:
+            groups: ['product:read']
+        brand:
+            groups: ['product:read']
+        storage:
+            groups: ['product:read']
+        color:
+            groups: ['product:read']
+        price:
+            groups: ['product:read']
+        description:
+            groups: ['product:read']                        

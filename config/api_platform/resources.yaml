@@ -6,6 +6,9 @@ App\Entity\Product:
     itemOperations:
         get:
             method: 'GET'
+    attributes:
+        normalization_context:
+            groups: ['product:read']            
 
 App\Entity\User:
     collectionOperations:
@@ -18,3 +21,8 @@ App\Entity\User:
             method: 'GET'
         delete:
             method: 'DELETE'
+    attributes:
+        normalization_context:
+            groups: ['user:read']
+        denormalization_context:
+            groups: ['user:write']
