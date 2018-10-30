@@ -10,4 +10,11 @@ api_platform:
         jsonhal:      ['application/hal+json']
         html:         ['text/html']
     error_formats:
-        jsonproblem:  ['application/problem+json']    
+        jsonproblem:  ['application/problem+json']
+        
+framework:
+    serializer:
+        enabled: true
+        mapping:
+            paths:
+                - '%kernel.project_dir%/config/serialization' # yaml or xml directory configuration
