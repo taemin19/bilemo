@@ -98,7 +98,7 @@ functional-test: features ## Run functional tests, [FEATURE=example.feature] to 
 	$(ENV_PHP) vendor/bin/behat features/$(FEATURE)
 
 unit-test: tests ## Run unit tests
-	$(ENV_PHP) ./bin/phpunit
+	$(ENV_PHP) php ./bin/phpunit
 
 ## Console commands
 client: src/Command/CreateClientCommand.php ## Create a client, [ARGS=name username password] for a no interactive wizard
