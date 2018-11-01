@@ -8,7 +8,8 @@ App\Entity\Product:
             method: 'GET'
     attributes:
         normalization_context:
-            groups: ['product:read']            
+            groups: ['product:read']  
+        access_control: 'is_granted("ROLE_CLIENT")'          
 
 App\Entity\User:
     collectionOperations:
@@ -19,10 +20,13 @@ App\Entity\User:
     itemOperations:
         get:
             method: 'GET'
+            access_control: 'object.getClient() == user'
         delete:
             method: 'DELETE'
+            access_control: 'object.getClient() == user'
     attributes:
         normalization_context:
             groups: ['user:read']
         denormalization_context:
             groups: ['user:write']
+        access_control: 'is_granted("ROLE_CLIENT")'
