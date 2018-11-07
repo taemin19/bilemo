@@ -72,3 +72,18 @@ Feature: Security
       | /api/users      | POST   |
       | /api/users/1    | GET    |
       | /api/users/1    | DELETE |
+
+  @loginAsClient1
+  Scenario: Throw 403 error when the current client try to access another client's user
+    Given the following users exist for the client2:
+      | firstname | lastname | email              |
+      | John      | Doe      | john.doe@email.com |
+    When I add "Accept" header equal to "application/hal+json"
+    And I send a "GET" request to "/api/users/1"
+    Then the response status code should be 403
+    And the response should be in JSON
+    And the header "Content-Type" should be equal to "application/problem+json; charset=utf-8"
+    And the JSON nodes should be equal to:
+      | type   | https://tools.ietf.org/html/rfc2616#section-10 |
+      | title  | An error occurred                              |
+      | detail | Access Denied.                                 |

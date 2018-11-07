@@ -164,4 +164,29 @@ class FeatureContext implements Context
         }
         $em->flush();
     }
+
+    /**
+     * @param TableNode $table
+     * @Given the following users exist for the client2:
+     */
+    public function theFollowingUsersExistForClient2(TableNode $table)
+    {
+        $em = $this->doctrine->getManager();
+
+        $client = new Client();
+        $client->setName('Client2');
+        $client->setUsername('client2');
+        $client->setPassword($this->encoder->encodePassword($client, 'client2'));
+        $em->persist($client);
+
+        foreach ($table->getHash() as $userHash) {
+            $user = new User();
+            $user->setFirstname($userHash['firstname']);
+            $user->setLastname($userHash['lastname']);
+            $user->setEmail($userHash['email']);
+            $user->setClient($client);
+            $em->persist($user);
+        }
+        $em->flush();
+    }
 }
