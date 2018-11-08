@@ -67,7 +67,7 @@ Feature: Users
     }
     """
 
-  Scenario: Create an user
+  Scenario: Create a user
     When I add "Content-Type" header equal to "application/hal+json"
     And I add "Accept" header equal to "application/hal+json"
     And I send a "POST" request to "/api/users" with body:
@@ -81,6 +81,7 @@ Feature: Users
     Then the response status code should be 201
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/hal+json; charset=utf-8"
+    And the header "Location" should be equal to "http://localhost/api/users/1"
     And the JSON should be equal to:
     """
     {
