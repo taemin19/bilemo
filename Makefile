@@ -97,8 +97,8 @@ db--test: config/packages/test/doctrine.yaml ## Create a test database and add t
 functional-test: features ## Run functional tests, [FEATURE=example.feature] to test a specific feature
 	$(ENV_PHP) vendor/bin/behat features/$(FEATURE)
 
-unit-test: tests ## Run unit tests
-	$(ENV_PHP) php ./bin/phpunit
+unit-test: tests ## Run unit tests, [TEST=Dir[/Test.php]] to test a directory or a specific test file
+	$(ENV_PHP) php ./bin/phpunit tests/$(TEST)
 
 ## Console commands
 client: src/Command/CreateClientCommand.php ## Create a client, [ARGS=name username password] for a no interactive wizard
@@ -112,3 +112,7 @@ product: src/Command/CreateProductCommand.php ## Create a product, [ARGS=model b
 
 product-delete: src/Command/DeleteProductCommand.php ## Delete a product, [ARGS=id] for a no interactive wizard
 	$(ENV_PHP) php bin/console app:delete-product $(ARGS)
+
+## Blackfire commands
+blackfire: ## Profile HTTP request, [TOKEN=token] [ROUTE=path]
+	$(ENV_BLACKFIRE) blackfire curl -H "Authorization: Bearer $(TOKEN)" http://172.20.0.1:8083/api/$(ROUTE)

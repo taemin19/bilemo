@@ -12,6 +12,13 @@ api_platform:
     error_formats:
         jsonproblem:  ['application/problem+json']
         
+    http_cache:
+        etag: true
+        max_age: 3600
+        shared_max_age: 7200
+        vary: ['Accept']
+        public: ~
+        
 framework:
     serializer:
         enabled: true
