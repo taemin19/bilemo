@@ -47,16 +47,16 @@ install: composer.json ## Install the dependencies
 update: composer.lock ## Get the latest versions of the dependencies
 	$(COMPOSER) update -a -o
 
-require: composer.json ## Install a package to require, PACKAGE=package_name
+require: composer.json ## Install a package to require, [PACKAGE=package_name]* (required*)
 	$(COMPOSER) require $(PACKAGE) -a -o
 
-require-dev: composer.json ## Install a package to require-dev, PACKAGE=package_name
+require-dev: composer.json ## Install a package to require-dev, [PACKAGE=package_name]* (required*)
 	$(COMPOSER) require --dev $(PACKAGE) -a -o
 
-remove: composer.json ## Remove a package from require, PACKAGE=package_name
+remove: composer.json ## Remove a package from require, [PACKAGE=package_name]* (required*)
 	$(COMPOSER) remove $(PACKAGE) -a -o
 
-remove-dev: composer.json ## Remove a package from require-dev, PACKAGE=package_name
+remove-dev: composer.json ## Remove a package from require-dev, [PACKAGE=package_name]* (required*)
 	$(COMPOSER) remove --dev $(PACKAGE) -a -o
 
 autoload: composer.json ## Update the autoloader
@@ -75,8 +75,14 @@ cache--prod: var/cache/prod ## Clear the cache in prod env
 cache--test: var/cache/test ## Clear the cache in test env
 	$(ENV_PHP) php bin/console cache:clear --env=test
 
-router: config/routes ## Get a list of the routes
+debug-router: config/routes ## Get a list of the routes
 	$(ENV_PHP) php bin/console debug:router
+
+debug-autowiring: ## Get a list of the autowireable services
+	$(ENV_PHP) php bin/console debug:autowiring
+
+debug-container: ## Get informations for a service in the container, [ID=service_id]* (required*)
+	$(ENV_PHP) php bin/console debug:container $(ID)
 
 db-migration: ## Generate a new migration
 	$(ENV_PHP) php bin/console make:migration
@@ -114,5 +120,5 @@ product-delete: src/Command/DeleteProductCommand.php ## Delete a product, [ARGS=
 	$(ENV_PHP) php bin/console app:delete-product $(ARGS)
 
 ## Blackfire commands
-blackfire: ## Profile HTTP request, [TOKEN=token] [ROUTE=path]
+blackfire: ## Profile HTTP request, [TOKEN=token]* [ROUTE=path]* (required*)
 	$(ENV_BLACKFIRE) blackfire curl -H "Authorization: Bearer $(TOKEN)" http://172.20.0.1:8083/api/$(ROUTE)
