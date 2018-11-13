@@ -19,3 +19,9 @@ services:
     'App\Doctrine\CurrentClientExtension':
         tags:
             - { name: api_platform.doctrine.orm.query_extension.collection, priority: 9 }
+    
+    # custom decorator to document token obtainment     
+    'App\Swagger\TokenDecorator':
+        decorates: 'api_platform.swagger.normalizer.documentation'
+        arguments: [ '@App\Swagger\TokenDecorator.inner' ]
+        autoconfigure: false
