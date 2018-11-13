@@ -19,6 +19,12 @@ api_platform:
         vary: ['Accept']
         public: ~
         
+    swagger:
+        api_keys:
+            BearerAuthentication:
+                name: Authorization
+                type: header
+        
 framework:
     serializer:
         enabled: true
