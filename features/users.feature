@@ -67,6 +67,59 @@ Feature: Users
     }
     """
 
+  Scenario Outline: Apply a search filter on users collection
+    Given the following users exist for client1:
+      | firstname | lastname | email              |
+      | john      | doe      | john.doe@email.com |
+      | john      | toe      | john.toe@email.com |
+    When I add "Accept" header equal to "application/hal+json"
+    And I send a "GET" request to "/api/users<parameters>"
+    Then the response status code should be 200
+    And the response should be in JSON
+    And the header "Content-Type" should be equal to "application/hal+json; charset=utf-8"
+    And the JSON should be equal to:
+    """
+    {
+      "_links": {
+        "self": {
+          "href": "/api/users<parameters>"
+        },
+        "item": [
+          {
+            "href": "/api/users/<id>"
+          }
+        ]
+      },
+      "totalItems": 1,
+      "itemsPerPage": 30,
+      "_embedded": {
+        "item": [
+          {
+            "_links": {
+              "self": {
+                "href": "/api/users/<id>"
+              }
+            },
+            "id": <id>,
+            "firstname": "john",
+            "lastname": "<lastname>",
+            "email": "<email>",
+            "client": {
+              "name": "Client1"
+            }
+          }
+        ]
+      }
+    }
+    """
+
+    Examples:
+      | parameters                   | id | lastname | email              |
+      | ?lastname=doe                | 1  | doe      | john.doe@email.com |
+      | ?lastname=toe                | 2  | toe      | john.toe@email.com |
+      | ?email=john.doe%40email.com  | 1  | doe      | john.doe@email.com |
+      | ?email=john.toe%40email.com  | 2  | toe      | john.toe@email.com |
+
   Scenario: Create a user
     When I add "Content-Type" header equal to "application/hal+json"
     And I add "Accept" header equal to "application/hal+json"
