@@ -67,6 +67,59 @@ Feature: Products
     }
     """
 
+  Scenario Outline: Apply a search filter on product collection
+    Given the following products exist:
+      | model   | brand   | storage | color  | price   | description |
+      | product | samsung | 64      | black  | 849.99  | new model   |
+      | product | apple   | 64      | black  | 849.99  | new model   |
+    When I add "Accept" header equal to "application/hal+json"
+    And I send a "GET" request to "/api/products" with parameters:
+      | key   | value   |
+      | brand | <brand> |
+    Then the response status code should be 200
+    And the response should be in JSON
+    And the header "Content-Type" should be equal to "application/hal+json; charset=utf-8"
+    And the JSON should be equal to:
+    """
+    {
+      "_links": {
+        "self": {
+          "href": "/api/products?brand=<brand>"
+        },
+        "item": [
+          {
+              "href": "/api/products/<id>"
+          }
+        ]
+      },
+      "totalItems": 1,
+      "itemsPerPage": 30,
+      "_embedded": {
+        "item": [
+          {
+            "_links": {
+              "self": {
+                "href": "/api/products/<id>"
+              }
+            },
+            "id": <id>,
+            "model": "product",
+            "brand": "<brand>",
+            "storage": 64,
+            "color": "black",
+            "price": 849.99,
+            "description": "new model"
+          }
+        ]
+      }
+    }
+    """
+
+    Examples:
+      | brand   | id |
+      | samsung | 1  |
+      | apple   | 2  |
+
   Scenario: Retrieve one product
     Given the following products exist:
       | model     | brand   | storage | color | price  | description |

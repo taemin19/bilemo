@@ -3,6 +3,7 @@ App\Entity\Product:
     collectionOperations:
         get:
             method: 'GET'
+            filters: ['product.search_filter']                             
     itemOperations:
         get:
             method: 'GET'
@@ -15,6 +16,7 @@ App\Entity\User:
     collectionOperations:
         get:
             method: 'GET'
+            filters: ['user.search_filter']
         post:
             method: 'POST'
     itemOperations:
