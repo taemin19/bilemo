@@ -3,10 +3,25 @@ App\Entity\Product:
     collectionOperations:
         get:
             method: 'GET'
-            filters: ['product.search_filter']                             
+            filters: ['product.search_filter']
+            swagger_context:
+                parameters:
+                    -
+                        in: query
+                        name: brand
+                        type: string
+                        description: The product brand
     itemOperations:
         get:
             method: 'GET'
+            swagger_context:
+                parameters:
+                    -
+                        in: path
+                        name: id
+                        type: string
+                        required: true
+                        description: The product id            
     attributes:
         normalization_context:
             groups: ['product:read']  
@@ -17,15 +32,43 @@ App\Entity\User:
         get:
             method: 'GET'
             filters: ['user.search_filter']
+            swagger_context:
+                parameters:
+                    -
+                        in: query
+                        name: lastname
+                        type: string
+                        description: The user lastname
+                    -
+                        in: query
+                        name: email
+                        type: string
+                        description: The user email                           
         post:
             method: 'POST'
     itemOperations:
         get:
             method: 'GET'
             access_control: 'object.getClient() == user'
+            swagger_context:
+                parameters:
+                    -
+                        in: path
+                        name: id
+                        type: string
+                        required: true
+                        description: The user id            
         delete:
             method: 'DELETE'
             access_control: 'object.getClient() == user'
+            swagger_context:
+                parameters:
+                    -
+                        in: path
+                        name: id
+                        type: string
+                        required: true
+                        description: The user id            
     attributes:
         normalization_context:
             groups: ['user:read']
