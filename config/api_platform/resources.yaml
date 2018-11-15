@@ -16,6 +16,7 @@ App\Entity\User:
     collectionOperations:
         get:
             method: 'GET'
+            filters: ['user.search_filter']
         post:
             method: 'POST'
     itemOperations:

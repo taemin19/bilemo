@@ -34,3 +34,11 @@ services:
         autowire: false
         autoconfigure: false
         public: false       
+        
+    user.search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { lastname: 'exact', email: 'exact' } ]
+        tags:  [ 'api_platform.filter' ]      
+        autowire: false
+        autoconfigure: false
+        public: false
