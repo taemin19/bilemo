@@ -25,3 +25,12 @@ services:
         decorates: 'api_platform.swagger.normalizer.documentation'
         arguments: [ '@App\Swagger\TokenDecorator.inner' ]
         autoconfigure: false
+        
+    # Collections search filter
+    product.search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { brand: 'exact' } ]
+        tags:  [ 'api_platform.filter' ]      
+        autowire: false
+        autoconfigure: false
+        public: false       
