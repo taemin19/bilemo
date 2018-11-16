@@ -30,24 +30,16 @@ final class TokenDecorator implements NormalizerInterface
             'paths' => [
                 '/api/login_check' => [
                     'post' => [
-                        'tags' => ['Token'],
+                        'tags' => ['Authentication'],
                         'operationId' => 'postTokenItem',
                         'consumes' => $allowedFormat,
                         'produces' => $allowedFormat,
-                        'summary' => 'Creates a JWT token',
+                        'summary' => 'Generates a JWT token',
                         'parameters' => [
                             [
                                 'in' => 'body',
                                 'name' => 'client',
                                 'description' => 'Client credentials',
-                                'properties' => [
-                                    'username' => [
-                                        'type' => 'string'
-                                    ],
-                                    'password' => [
-                                        'type' => 'string'
-                                    ]
-                                ],
                                 'example' => [
                                     'username' => 'client1',
                                     'password' => 'client1'
@@ -56,10 +48,13 @@ final class TokenDecorator implements NormalizerInterface
                         ],
                         'responses' => [
                             200 => [
-                                'description' => 'JWT token created',
+                                'description' => 'Client access token',
                                 'schema' => [
-                                    '$ref' => '#/definitions/Token-token:read'
+                                    '$ref' => '#/definitions/Token'
                                 ]
+                            ],
+                            400 => [
+                                'description' => 'Invalid input'
                             ],
                             401 => [
                                 'description' => 'Bad credentials'
@@ -69,7 +64,7 @@ final class TokenDecorator implements NormalizerInterface
                 ]
             ],
             'definitions' => [
-                'Token-token:read' => [
+                'Token' => [
                     'type' => 'object',
                     'description' => "",
                     'properties' => [
@@ -82,7 +77,7 @@ final class TokenDecorator implements NormalizerInterface
             ]
         ];
         $officialDocumentation = $this->decorated->normalize($object, $format, $context);
-        return array_merge_recursive($officialDocumentation, $tokenDocumentation);
+        return array_merge_recursive($tokenDocumentation, $officialDocumentation);
     }
 
     /**
