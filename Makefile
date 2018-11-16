@@ -121,4 +121,4 @@ product-delete: src/Command/DeleteProductCommand.php ## Delete a product, [ARGS=
 
 ## Blackfire commands
 blackfire: ## Profile HTTP request, [TOKEN=token]* [ROUTE=path]* (required*)
-	$(ENV_BLACKFIRE) blackfire curl -H "Authorization: Bearer $(TOKEN)" http://172.20.0.1:8083/api/$(ROUTE)
+	$(ENV_BLACKFIRE) blackfire curl -H "Authorization: Bearer $(TOKEN)" http://nginx/api/$(ROUTE)
