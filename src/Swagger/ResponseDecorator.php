@@ -41,6 +41,7 @@ final class ResponseDecorator implements NormalizerInterface
         $docs['paths']['/api/users']['get']['responses'][401] = $unauthorizedResponse;
         $docs['paths']['/api/users']['post']['responses'][401] = $unauthorizedResponse;
         $docs['paths']['/api/users/{id}']['get']['responses'][401] = $unauthorizedResponse;
+        $docs['paths']['/api/users/{id}']['get']['responses'][403] = $forbiddenResponse;
         $docs['paths']['/api/users/{id}']['delete']['responses'][401] = $unauthorizedResponse;
         $docs['paths']['/api/users/{id}']['delete']['responses'][403] = $forbiddenResponse;
 
