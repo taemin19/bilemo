@@ -8,6 +8,7 @@ api_platform:
     
     formats:
         jsonhal:      ['application/hal+json']
+        json:         ['application/json']
         html:         ['text/html']
     error_formats:
         jsonproblem:  ['application/problem+json']
