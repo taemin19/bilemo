@@ -10,7 +10,6 @@ RUN apk add --no-cache --virtual .persistent-deps \
         zlib
 
 ARG APCU_VERSION=5.1.12
-ARG XDEBUG_VERSION=2.6.0
 RUN set -eux \
     && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
@@ -22,12 +21,10 @@ RUN set -eux \
         zip \
     && pecl install \
         apcu-${APCU_VERSION} \
-        xdebug-${XDEBUG_VERSION} \
     && pecl clear-cache \
     && docker-php-ext-enable \
         apcu \
         opcache \
-        xdebug \
     && apk del .build-deps
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -53,7 +50,9 @@ RUN composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress
 
 WORKDIR /srv/bilemo
 
-RUN mkdir -p /srv/bilemo/var/cache /srv/bilemo/var/log
+RUN mkdir -p /srv/bilemo/var/cache /srv/bilemo/var/log \
+    && chown -R www-data /srv/bilemo/var \
+	&& chown -R www-data /tmp/
 
 RUN chown -R www-data:www-data /srv/bilemo
 
