@@ -11,6 +11,7 @@ The development is based on:
 - [Api Platform server component](https://api-platform.com/docs/distribution#using-symfony-flex-and-composer-advanced-users)
 - [LexikJWTAuthenticationBundle](https://github.com/lexik/LexikJWTAuthenticationBundle) (Json Web Token authentication)
 - [Behat](http://behat.org/en/latest/) (functional tests)
+- [PHPUnit](https://phpunit.de/index.html) (unit tests)
 
 The API will follow these rules:
 - The API only returns JSON responses
