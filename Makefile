@@ -15,16 +15,18 @@ help:
 	@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-10s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
 ## Main commands
-dev: docker-compose.yml ## Build and run the app
+app: ## Build and run the app
+	make start
+	make install
+
+app-rebuild: ## Rebuild and run the app
+	make down
 	$(DOCKER_COMPOSE) build --no-cache
 	$(DOCKER_COMPOSE) up -d --build --remove-orphans --force-recreate
 	make install
-	make cache
 
-rebuild: docker-compose.yml ## Build and run the app if you change a service’s Dockerfile or the contents of its build directory
-	$(DOCKER_COMPOSE) up -d --build --remove-orphans --no-recreate
-	make install
-	make cache
+rebuild: docker-compose.yml ## Update the app if you change a service’s Dockerfile or a configuration's docker-compose
+	$(DOCKER_COMPOSE) up -d --build --remove-orphans --force-recreate
 
 start: docker-compose.yml ## Starts containers
 	$(DOCKER_COMPOSE) up -d
@@ -34,9 +36,6 @@ stop: docker-compose.yml ## Stops running containers without removing them
 
 down: docker-compose.yml ## Stops containers and removes containers
 	$(DOCKER_COMPOSE) down
-
-clean: ## Allow to delete the generated files and clean the project folder
-	$(ENV_PHP) rm -rf .env ./vendor
 
 ## Composer commands
 install: composer.json ## Install the dependencies
@@ -90,7 +89,7 @@ db-migration: ## Generate a new migration
 db-validate: ## Validate mapping/database
 	$(ENV_PHP) php bin/console doctrine:schema:validate
 
-db-migrate: src/Migrations ## Execute migrations that have not already been run
+db: src/Migrations ## Execute db migrations that have not already been run
 	$(ENV_PHP) php bin/console doctrine:migrations:migrate
 
 fixtures: src/DataFixtures ## Load a "fake" set data into the database
@@ -100,10 +99,10 @@ db--test: config/packages/test/doctrine.yaml ## Create a test database and add t
 	$(ENV_PHP) php bin/console doctrine:database:create --env=test
 	$(ENV_PHP) php bin/console doctrine:schema:update --force --env=test
 
-functional-test: features ## Run functional tests, [FEATURE=example.feature] to test a specific feature
+test-f: features ## Run functional tests, [FEATURE=example.feature] to test a specific feature
 	$(ENV_PHP) vendor/bin/behat features/$(FEATURE)
 
-unit-test: tests ## Run unit tests, [TEST=Dir[/Test.php]] to test a directory or a specific test file
+test-u: tests ## Run unit tests, [TEST=Dir[/Test.php]] to test a directory or a specific test file
 	$(ENV_PHP) php ./bin/phpunit tests/$(TEST)
 
 ## Console commands

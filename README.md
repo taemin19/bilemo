@@ -29,7 +29,7 @@ The project should be installed using [Make](https://www.gnu.org/software/make/)
     $ git clone https://github.com/taemin19/bilemo.git
     $ cd bilemo
     $ cp .env.dist .env
-    $ make dev
+    $ make app
 
 See the available commands of the Makefile:
 
@@ -38,7 +38,7 @@ See the available commands of the Makefile:
 #### Database
 Add the tables/schema to database:
 
-    $ make migrate
+    $ make db
 
 Load a set of data:
 
@@ -49,6 +49,9 @@ Generate the SSH keys:
 
     $ openssl genrsa -out config/jwt/private.pem -aes256 4096
     $ openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem
+    $ openssl rsa -in config/jwt/private.pem -out config/jwt/private2.pem
+    $ mv config/jwt/private.pem config/jwt/private.pem-back
+    $ mv config/jwt/private2.pem config/jwt/private.pem
     
 *Test SSH keys are already generated in the project.*    
 
@@ -57,9 +60,13 @@ Create test database and add tables/schema:
 
     $ make db--test
 
+Run unit tests:
+
+    $ make test-u
+
 Run functional tests:
 
-    $ make functional-test
+    $ make test-f
 
 ### Author
 - Daniel Thébault

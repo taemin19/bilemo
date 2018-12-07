@@ -1,5 +1,4 @@
 /.idea/
-/docker/nginx/logs/
 
 ###> symfony/framework-bundle ###
 /.env
@@ -14,6 +13,7 @@ behat.yml
 
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/private.pem
+/config/jwt/private.pem-back
 /config/jwt/public.pem
 ###< lexik/jwt-authentication-bundle ###
 
