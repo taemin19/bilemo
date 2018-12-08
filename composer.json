@@ -1,5 +1,7 @@
 {
+    "name": "taemin19/bilemo",
     "type": "project",
+    "description": "API Bilemo",
     "license": "proprietary",
     "require": {
         "php": "^7.1.3",
