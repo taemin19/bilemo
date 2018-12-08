@@ -104,7 +104,7 @@ class DeleteClientCommand extends Command
 
         // check if a client with the same username exists
         $client = $this->clients->findOneBy(['username' => $username]);
-        if (null == $client) {
+        if (null === $client) {
             throw new RuntimeException(sprintf('Client with username "%s" not found.', $username));
         }
 

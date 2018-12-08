@@ -104,7 +104,7 @@ class DeleteProductCommand extends Command
 
         // check if a product with the same id exists
         $product = $this->products->find($id);
-        if (null == $product) {
+        if (null === $product) {
             throw new RuntimeException(sprintf('Product with id "%s" not found.', $id));
         }
 
